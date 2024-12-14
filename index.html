@@ -341,9 +341,14 @@
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 py-6 px-8 mb-12">
       <div class="max-w-4xl mx-auto">
-        <div class="logo-container">
-          <div class="logo"></div>
-          <h1 class="app-name">brokeclock</h1>
+        <div class="flex flex-col sm:flex-row items-center justify-between">
+          <div class="logo-container">
+            <div class="logo"></div>
+            <h1 class="app-name">brokeclock</h1>
+          </div>
+          <p class="text-prussian-blue mt-2 sm:mt-0 text-sm font-medium opacity-75">
+            Track your savings, plan your future
+          </p>
         </div>
       </div>
     </header>
@@ -493,48 +498,42 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-prussian-blue text-white py-6 px-8 mt-8">
-      <div
-        class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4"
-      >
-        <p class="text-sm text-gray-300">
-          © 2024 brokeclock. All rights reserved.
-        </p>
-        <div class="flex items-center gap-6">
-          <a
-            href="https://twitter.com/yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-300 hover:text-selective-yellow transition-colors"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
-              ></path>
-            </svg>
-          </a>
-          <a
-            href="https://yourwebsite.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-300 hover:text-selective-yellow transition-colors"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15v-4H8l4-8v4h3l-4 8z"
-              ></path>
-            </svg>
-          </a>
+    <footer class="bg-prussian-blue text-white py-8 px-8 mt-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="logo w-8 h-8"></div>
+              <span class="font-bold text-selective-yellow">brokeclock</span>
+            </div>
+            <p class="text-sm text-gray-300">
+              Making financial planning simple and accessible for everyone.
+            </p>
+          </div>
+          
+          <div>
+            <h3 class="text-selective-yellow font-semibold mb-4">Connect</h3>
+            <div class="flex gap-4">
+              <a href="https://x.com/manuelalferez" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-sky-blue transition-colors">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                </svg>
+              </a>
+              <a href="https://manuelalferez.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-sky-blue transition-colors">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253m0 0A17.919 17.919 0 0112 7.5c3.162 0 6.133.815 8.716 2.247" />
+                </svg>
+              </a>
+            </div>
+            <p class="text-sm text-gray-300 mt-4">
+              © 
+              <a href="https://manuelalferez.com" target="_blank" rel="noopener noreferrer" class="text-sky-blue transition-colors">
+                Manuel Alferez
+              </a>
+              <br/>
+              All rights reserved.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
