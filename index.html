@@ -13,31 +13,31 @@
       .shadcn-input {
         width: 100%;
         padding: 0.5rem 0.75rem;
-        border: 1px solid #e5e7eb;
+        border: 1px solid #219ebc;
         border-radius: 0.375rem;
       }
       .shadcn-input:focus {
         outline: none;
-        box-shadow: 0 0 0 2px #3b82f6;
+        box-shadow: 0 0 0 2px #8ecae6;
       }
       .shadcn-button {
         padding: 0.5rem 1rem;
-        background-color: #2563eb;
+        background-color: #fb8500;
         color: white;
         border-radius: 0.375rem;
       }
       .shadcn-button:hover {
-        background-color: #1d4ed8;
+        background-color: #ffb703;
       }
       .shadcn-card {
         padding: 1.5rem;
         background-color: white;
         border-radius: 0.5rem;
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        box-shadow: 0 10px 15px -3px rgba(2, 48, 71, 0.1);
       }
     </style>
   </head>
-  <body class="bg-gray-100 min-h-screen p-8">
+  <body class="bg-gray-50 min-h-screen p-8">
     <div class="max-w-4xl mx-auto">
       <div class="shadcn-card mb-8">
         <h1 class="text-3xl font-bold mb-6">Simple Savings Calculator</h1>
@@ -174,7 +174,8 @@
               {
                 label: "Projected Savings",
                 data: balances,
-                borderColor: "rgb(59, 130, 246)",
+                borderColor: "#219ebc",
+                backgroundColor: "#8ecae6",
                 tension: 0.1,
               },
             ],
@@ -188,11 +189,12 @@
               title: {
                 display: true,
                 text: "Savings Over Time",
+                color: "#023047",
               },
               tooltip: {
                 backgroundColor: "white",
-                titleColor: "#1f2937",
-                bodyColor: "#1f2937",
+                titleColor: "#023047",
+                bodyColor: "#023047",
                 titleFont: {
                   size: 13,
                   weight: "600",
@@ -203,7 +205,7 @@
                   family: "system-ui",
                 },
                 padding: 12,
-                borderColor: "#e5e7eb",
+                borderColor: "#219ebc",
                 borderWidth: 1,
                 displayColors: false,
                 callbacks: {
@@ -223,6 +225,18 @@
                   callback: function (value) {
                     return "$" + value.toLocaleString();
                   },
+                  color: "#023047",
+                },
+                grid: {
+                  color: "rgba(142, 202, 230, 0.2)",
+                },
+              },
+              x: {
+                ticks: {
+                  color: "#023047",
+                },
+                grid: {
+                  color: "rgba(142, 202, 230, 0.2)",
                 },
               },
             },
