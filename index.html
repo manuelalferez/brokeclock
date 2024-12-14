@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Savings Duration Calculator</title>
+    <title>Simple Savings Calculator</title>
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
@@ -18,12 +18,7 @@
       }
       .shadcn-input:focus {
         outline: none;
-        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
-          var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
-          calc(2px + var(--tw-ring-offset-width)) #3b82f6;
-        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
-          var(--tw-shadow, 0 0 #0000);
+        box-shadow: 0 0 0 2px #3b82f6;
       }
       .shadcn-button {
         padding: 0.5rem 1rem;
@@ -38,15 +33,14 @@
         padding: 1.5rem;
         background-color: white;
         border-radius: 0.5rem;
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-          0 4px 6px -4px rgb(0 0 0 / 0.1);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
       }
     </style>
   </head>
   <body class="bg-gray-100 min-h-screen p-8">
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-4xl mx-auto">
       <div class="shadcn-card mb-8">
-        <h1 class="text-3xl font-bold mb-6">Savings Duration Calculator</h1>
+        <h1 class="text-3xl font-bold mb-6">Simple Savings Calculator</h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -85,28 +79,6 @@
                   placeholder="e.g., 3000"
                 />
               </div>
-              <div>
-                <label class="block text-sm font-medium mb-1"
-                  >One-time Expenses ($)</label
-                >
-                <input
-                  type="number"
-                  id="oneTimeExpenses"
-                  class="shadcn-input"
-                  placeholder="e.g., 5000"
-                />
-              </div>
-              <div>
-                <label class="block text-sm font-medium mb-1"
-                  >Annual Savings Growth Rate (%)</label
-                >
-                <input
-                  type="number"
-                  id="growthRate"
-                  class="shadcn-input"
-                  placeholder="e.g., 5"
-                />
-              </div>
             </div>
             <button onclick="calculateDuration()" class="shadcn-button mt-6">
               Calculate
@@ -123,7 +95,7 @@
                 </p>
               </div>
               <div class="p-4 bg-gray-50 rounded-md">
-                <h3 class="font-medium mb-2">Monthly Balance Overview</h3>
+                <h3 class="font-medium mb-2">Monthly Balance</h3>
                 <p id="monthlyBalance" class="text-lg">-</p>
               </div>
             </div>
@@ -147,34 +119,38 @@
           parseFloat(document.getElementById("monthlyIncome").value) || 0;
         const monthlyExpenses =
           parseFloat(document.getElementById("monthlyExpenses").value) || 0;
-        const oneTimeExpenses =
-          parseFloat(document.getElementById("oneTimeExpenses").value) || 0;
-        const growthRate =
-          parseFloat(document.getElementById("growthRate").value) || 0;
 
-        let savings = currentSavings - oneTimeExpenses;
+        let savings = currentSavings;
         let months = 0;
         const monthlyNet = monthlyIncome - monthlyExpenses;
         const projectedBalances = [];
 
         while (savings > 0 && months < 1200) {
-          // Max 100 years
           projectedBalances.push(savings);
-          const monthlyGrowth = (savings * (growthRate / 100)) / 12;
-          savings += monthlyNet + monthlyGrowth;
+          savings += monthlyNet;
           months++;
         }
 
         const years = Math.floor(months / 12);
         const remainingMonths = months % 12;
-        const daysInLastMonth = Math.floor((savings / monthlyNet) * 30);
 
-        document.getElementById(
-          "timeRemaining"
-        ).textContent = `${years} years, ${remainingMonths} months, ${Math.max(
-          0,
-          daysInLastMonth
-        )} days`;
+        let timeText = "";
+        if (years > 0) {
+          timeText += `${years} ${years === 1 ? "year" : "years"}`;
+          if (remainingMonths > 0) {
+            timeText += ` and ${remainingMonths} ${
+              remainingMonths === 1 ? "month" : "months"
+            }`;
+          }
+        } else if (remainingMonths > 0) {
+          timeText = `${remainingMonths} ${
+            remainingMonths === 1 ? "month" : "months"
+          }`;
+        } else {
+          timeText = "Less than a month";
+        }
+
+        document.getElementById("timeRemaining").textContent = timeText;
 
         document.getElementById("monthlyBalance").textContent = `Monthly Net: ${
           monthlyNet >= 0 ? "+" : ""
@@ -212,6 +188,32 @@
               title: {
                 display: true,
                 text: "Savings Over Time",
+              },
+              tooltip: {
+                backgroundColor: "white",
+                titleColor: "#1f2937",
+                bodyColor: "#1f2937",
+                titleFont: {
+                  size: 13,
+                  weight: "600",
+                  family: "system-ui",
+                },
+                bodyFont: {
+                  size: 12,
+                  family: "system-ui",
+                },
+                padding: 12,
+                borderColor: "#e5e7eb",
+                borderWidth: 1,
+                displayColors: false,
+                callbacks: {
+                  title: function (tooltipItems) {
+                    return `Month ${tooltipItems[0].dataIndex + 1}`;
+                  },
+                  label: function (context) {
+                    return `Balance: $${context.parsed.y.toLocaleString()}`;
+                  },
+                },
               },
             },
             scales: {
