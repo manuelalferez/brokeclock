@@ -313,6 +313,28 @@
         color: var(--ut-orange);
         margin-bottom: 0.5rem;
       }
+
+      .currency-select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 0.75rem;
+        transition: all 0.2s ease;
+        font-size: 0.95rem;
+        background-color: white;
+        color: var(--prussian-blue);
+        cursor: pointer;
+      }
+      
+      .currency-select:hover {
+        border-color: #8ecae6;
+      }
+      
+      .currency-select:focus {
+        outline: none;
+        border-color: #219ebc;
+        box-shadow: 0 0 0 3px rgba(142, 202, 230, 0.2);
+      }
     </style>
   </head>
   <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -334,6 +356,21 @@
             <div>
               <h2 class="section-title">Financial Inputs</h2>
               <div class="space-y-6">
+                <div>
+                  <label class="input-label">Currency</label>
+                  <div class="input-group">
+                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <select id="currencySelect" class="currency-select input-with-icon">
+                      <option value="USD">US Dollar ($)</option>
+                      <option value="EUR">Euro (€)</option>
+                      <option value="GBP">British Pound (£)</option>
+                      <option value="JPY">Japanese Yen (¥)</option>
+                      <option value="AUD">Australian Dollar (A$)</option>
+                    </select>
+                  </div>
+                </div>
                 <div>
                   <label class="input-label">Current Savings ($)</label>
                   <div class="input-group">
@@ -507,6 +544,7 @@
 
       // Initialize with empty chart on page load
       document.addEventListener("DOMContentLoaded", function () {
+        updateCurrencyLabels();
         updateChart([0]);
         calculateDuration();
       });
@@ -533,6 +571,33 @@
         input.addEventListener("change", debouncedCalculate);
       });
 
+      // Currency symbols mapping
+      const currencySymbols = {
+        USD: '$',
+        EUR: '€',
+        GBP: '£',
+        JPY: '¥',
+        AUD: 'A$'
+      };
+
+      // Get current currency symbol
+      function getCurrencySymbol() {
+        const currency = document.getElementById('currencySelect').value;
+        return currencySymbols[currency];
+      }
+
+      // Update the currency format function
+      function formatCurrency(value) {
+        const symbol = getCurrencySymbol();
+        return `${symbol}${value.toLocaleString()}`;
+      }
+
+      // Add event listener for currency change
+      document.getElementById('currencySelect').addEventListener('change', function() {
+        updateCurrencyLabels();
+        calculateDuration();
+      });
+
       function calculateDuration() {
         const currentSavings =
           parseFloat(document.getElementById("currentSavings").value) || 0;
@@ -541,13 +606,11 @@
         const monthlyExpenses =
           parseFloat(document.getElementById("monthlyExpenses").value) || 0;
 
-        // Update displays
-        document.getElementById(
-          "monthlyIncomeDisplay"
-        ).textContent = `$${monthlyIncome.toLocaleString()}`;
-        document.getElementById(
-          "monthlyExpensesDisplay"
-        ).textContent = `$${monthlyExpenses.toLocaleString()}`;
+        // Update displays with new currency format
+        document.getElementById("monthlyIncomeDisplay").textContent = 
+          formatCurrency(monthlyIncome);
+        document.getElementById("monthlyExpensesDisplay").textContent = 
+          formatCurrency(monthlyExpenses);
 
         let savings = currentSavings;
         let months = 0;
@@ -575,10 +638,10 @@
         if (monthlyNet >= 0) {
           if (currentSavings === 0) {
             timeText = "Starting to Save";
-            subText = `Saving $${monthlyNet.toLocaleString()} monthly`;
+            subText = `Saving ${formatCurrency(monthlyNet)} monthly`;
           } else {
             timeText = "Growing Savings";
-            subText = `$${currentSavings.toLocaleString()} growing by $${monthlyNet.toLocaleString()} monthly`;
+            subText = `${formatCurrency(currentSavings)} growing by ${formatCurrency(monthlyNet)} monthly`;
           }
         } else {
           if (months >= 1200) {
@@ -625,7 +688,8 @@
           balancePercentage.textContent = `${Math.round(percentage)}% overspending`;
         }
 
-        monthlyBalanceElement.textContent = `${monthlyNet >= 0 ? "+" : ""}$${monthlyNet.toLocaleString()}`;
+        monthlyBalanceElement.textContent = 
+          `${monthlyNet >= 0 ? "+" : ""}${formatCurrency(Math.abs(monthlyNet))}`;
 
         const resultsContainer = document.getElementById("results");
         resultsContainer.classList.add("animate-fade-in");
@@ -710,10 +774,10 @@
                 displayColors: false,
                 callbacks: {
                   title: function (tooltipItems) {
-                    return months[tooltipItems[0].dataIndex]; // Use the actual month
+                    return months[tooltipItems[0].dataIndex];
                   },
                   label: function (context) {
-                    return `Balance: $${context.parsed.y.toLocaleString()}`;
+                    return `Balance: ${formatCurrency(context.parsed.y)}`;
                   },
                 },
               },
@@ -723,7 +787,7 @@
                 beginAtZero: true,
                 ticks: {
                   callback: function (value) {
-                    return "$" + value.toLocaleString();
+                    return formatCurrency(value);
                   },
                   color: "#023047",
                   padding: 10,
@@ -753,6 +817,22 @@
               }
             },
           },
+        });
+      }
+
+      // Replace the updateCurrencyLabels function with this improved version
+      function updateCurrencyLabels() {
+        const symbol = getCurrencySymbol();
+        const labels = document.querySelectorAll('.input-label');
+        labels.forEach(label => {
+          const text = label.textContent;
+          if (text.includes('Current Savings')) {
+            label.textContent = `Current Savings (${symbol})`;
+          } else if (text.includes('Monthly Income')) {
+            label.textContent = `Monthly Income (${symbol})`;
+          } else if (text.includes('Monthly Expenses')) {
+            label.textContent = `Monthly Expenses (${symbol})`;
+          }
         });
       }
     </script>
