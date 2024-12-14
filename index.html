@@ -3,7 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple Savings Calculator</title>
+    <title>brokeclock</title>
+
+    <!-- Favicons -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
@@ -35,79 +52,277 @@
         border-radius: 0.5rem;
         box-shadow: 0 10px 15px -3px rgba(2, 48, 71, 0.1);
       }
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0.7;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Add color variables */
+      :root {
+        --sky-blue: #8ecae6;
+        --blue-green: #219ebc;
+        --prussian-blue: #023047;
+        --selective-yellow: #ffb703;
+        --ut-orange: #fb8500;
+      }
+
+      /* Add logo styles */
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        height: 2.5rem;
+      }
+
+      .logo {
+        position: relative;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--ut-orange),
+          var(--selective-yellow)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px -1px rgba(2, 48, 71, 0.1);
+      }
+
+      .logo::before {
+        content: "";
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid var(--prussian-blue);
+        border-radius: 50%;
+        border-top-color: transparent;
+        transform: rotate(-45deg);
+      }
+
+      .logo::after {
+        content: "";
+        position: absolute;
+        width: 0.25rem;
+        height: 0.75rem;
+        background-color: var(--prussian-blue);
+        transform: translateY(-0.25rem);
+      }
+
+      .app-name {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          var(--ut-orange),
+          var(--selective-yellow)
+        );
+        -webkit-background-clip: text;
+        color: transparent;
+        letter-spacing: -0.05em;
+      }
+
+      /* Add these new styles */
+      .bg-prussian-blue {
+        background-color: var(--prussian-blue);
+      }
+
+      .text-selective-yellow {
+        color: var(--selective-yellow);
+      }
     </style>
   </head>
-  <body class="bg-gray-50 min-h-screen p-8">
-    <div class="max-w-4xl mx-auto">
-      <div class="shadcn-card mb-8">
-        <h1 class="text-3xl font-bold mb-6">Simple Savings Calculator</h1>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 py-4 px-8 mb-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="logo-container">
+          <div class="logo"></div>
+          <h1 class="app-name">brokeclock</h1>
+        </div>
+      </div>
+    </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h2 class="text-xl font-semibold mb-4">Financial Inputs</h2>
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium mb-1"
-                  >Current Savings ($)</label
-                >
-                <input
-                  type="number"
-                  id="currentSavings"
-                  class="shadcn-input"
-                  placeholder="e.g., 50000"
-                />
+    <!-- Main Content -->
+    <main class="flex-grow px-8 pb-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="shadcn-card mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h2 class="text-xl font-semibold mb-4">Financial Inputs</h2>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium mb-1"
+                    >Current Savings ($)</label
+                  >
+                  <input
+                    type="number"
+                    id="currentSavings"
+                    class="shadcn-input"
+                    placeholder="e.g., 50000"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1"
+                    >Monthly Income ($)</label
+                  >
+                  <input
+                    type="number"
+                    id="monthlyIncome"
+                    class="shadcn-input"
+                    placeholder="e.g., 4000"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1"
+                    >Monthly Expenses ($)</label
+                  >
+                  <input
+                    type="number"
+                    id="monthlyExpenses"
+                    class="shadcn-input"
+                    placeholder="e.g., 3000"
+                  />
+                </div>
               </div>
-              <div>
-                <label class="block text-sm font-medium mb-1"
-                  >Monthly Income ($)</label
-                >
-                <input
-                  type="number"
-                  id="monthlyIncome"
-                  class="shadcn-input"
-                  placeholder="e.g., 4000"
-                />
-              </div>
-              <div>
-                <label class="block text-sm font-medium mb-1"
-                  >Monthly Expenses ($)</label
-                >
-                <input
-                  type="number"
-                  id="monthlyExpenses"
-                  class="shadcn-input"
-                  placeholder="e.g., 3000"
-                />
-              </div>
+              <button onclick="calculateDuration()" class="shadcn-button mt-6">
+                Calculate
+              </button>
             </div>
-            <button onclick="calculateDuration()" class="shadcn-button mt-6">
-              Calculate
-            </button>
-          </div>
 
-          <div>
-            <h2 class="text-xl font-semibold mb-4">Results</h2>
-            <div id="results" class="space-y-4">
-              <div class="p-4 bg-gray-50 rounded-md">
-                <h3 class="font-medium mb-2">Time Until Savings Depleted:</h3>
-                <p id="timeRemaining" class="text-2xl font-bold text-blue-600">
-                  -
-                </p>
-              </div>
-              <div class="p-4 bg-gray-50 rounded-md">
-                <h3 class="font-medium mb-2">Monthly Balance</h3>
-                <p id="monthlyBalance" class="text-lg">-</p>
+            <div>
+              <h2 class="text-xl font-semibold mb-4 text-prussian-blue">
+                Results
+              </h2>
+              <div id="results" class="space-y-4">
+                <div
+                  class="p-6 bg-gradient-to-r from-blue-green to-sky-blue rounded-lg shadow-md"
+                >
+                  <h3 class="font-medium mb-2 text-prussian-blue">
+                    Time Until Savings Depleted
+                  </h3>
+                  <p
+                    id="timeRemaining"
+                    class="text-3xl font-bold text-prussian-blue"
+                  >
+                    -
+                  </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div
+                    class="p-4 bg-white border-2 border-selective-yellow rounded-lg"
+                  >
+                    <h3 class="font-medium mb-2 text-prussian-blue">
+                      Monthly Income
+                    </h3>
+                    <p
+                      id="monthlyIncomeDisplay"
+                      class="text-lg font-semibold text-ut-orange"
+                    >
+                      $0
+                    </p>
+                  </div>
+
+                  <div
+                    class="p-4 bg-white border-2 border-selective-yellow rounded-lg"
+                  >
+                    <h3 class="font-medium mb-2 text-prussian-blue">
+                      Monthly Expenses
+                    </h3>
+                    <p
+                      id="monthlyExpensesDisplay"
+                      class="text-lg font-semibold text-ut-orange"
+                    >
+                      $0
+                    </p>
+                  </div>
+                </div>
+
+                <div class="p-4 bg-white border-2 border-blue-green rounded-lg">
+                  <h3 class="font-medium mb-2 text-prussian-blue">
+                    Monthly Balance
+                  </h3>
+                  <p id="monthlyBalance" class="text-xl font-semibold">-</p>
+                  <div
+                    id="balanceIndicator"
+                    class="mt-2 h-2 rounded-full bg-gray-200"
+                  >
+                    <div
+                      class="h-full rounded-full transition-all duration-300"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="shadcn-card">
-        <h2 class="text-xl font-semibold mb-4">Savings Projection</h2>
-        <canvas id="savingsChart" class="w-full h-64"></canvas>
+        <div class="shadcn-card">
+          <h2 class="text-xl font-semibold mb-4">Savings Projection</h2>
+          <canvas id="savingsChart" class="w-full h-64"></canvas>
+        </div>
       </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-prussian-blue text-white py-6 px-8 mt-8">
+      <div
+        class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4"
+      >
+        <p class="text-sm text-gray-300">
+          © 2024 brokeclock. All rights reserved.
+        </p>
+        <div class="flex items-center gap-6">
+          <a
+            href="https://twitter.com/yourusername"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-300 hover:text-selective-yellow transition-colors"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+              ></path>
+            </svg>
+          </a>
+          <a
+            href="https://yourwebsite.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-300 hover:text-selective-yellow transition-colors"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1 15v-4H8l4-8v4h3l-4 8z"
+              ></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
 
     <script>
       let savingsChart;
@@ -119,6 +334,13 @@
           parseFloat(document.getElementById("monthlyIncome").value) || 0;
         const monthlyExpenses =
           parseFloat(document.getElementById("monthlyExpenses").value) || 0;
+
+        document.getElementById(
+          "monthlyIncomeDisplay"
+        ).textContent = `$${monthlyIncome.toLocaleString()}`;
+        document.getElementById(
+          "monthlyExpensesDisplay"
+        ).textContent = `$${monthlyExpenses.toLocaleString()}`;
 
         let savings = currentSavings;
         let months = 0;
@@ -152,9 +374,37 @@
 
         document.getElementById("timeRemaining").textContent = timeText;
 
-        document.getElementById("monthlyBalance").textContent = `Monthly Net: ${
+        const monthlyBalanceElement = document.getElementById("monthlyBalance");
+        const balanceIndicator = document
+          .getElementById("balanceIndicator")
+          .querySelector("div");
+
+        if (monthlyNet >= 0) {
+          monthlyBalanceElement.className =
+            "text-xl font-semibold text-blue-green";
+          balanceIndicator.className =
+            "h-full rounded-full transition-all duration-300 bg-blue-green";
+          balanceIndicator.style.width =
+            Math.min((monthlyNet / monthlyIncome) * 100, 100) + "%";
+        } else {
+          monthlyBalanceElement.className =
+            "text-xl font-semibold text-ut-orange";
+          balanceIndicator.className =
+            "h-full rounded-full transition-all duration-300 bg-ut-orange";
+          balanceIndicator.style.width =
+            Math.min((Math.abs(monthlyNet) / monthlyIncome) * 100, 100) + "%";
+        }
+
+        monthlyBalanceElement.textContent = `Monthly Net: ${
           monthlyNet >= 0 ? "+" : ""
-        }$${monthlyNet.toFixed(2)}`;
+        }$${monthlyNet.toLocaleString()}`;
+
+        const resultsContainer = document.getElementById("results");
+        resultsContainer.classList.add("animate-fade-in");
+        setTimeout(
+          () => resultsContainer.classList.remove("animate-fade-in"),
+          500
+        );
 
         updateChart(projectedBalances);
       }
