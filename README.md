@@ -1,7 +1,8 @@
 <div align="center">
-  <img src="./favicon/favicon.svg" alt="BrokeClock Logo" width="100" height="100">
-  
-  # BrokeClock 
+  <div style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+    <img src="./favicon/favicon.svg" alt="BrokeClock Logo" width="100" height="100">
+    <h1>BrokeClock</h1>
+  </div>
 </div>
 
 BrokeClock is a simple yet powerful financial planning web application that helps you track your savings and visualize your financial future. 
