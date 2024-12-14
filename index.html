@@ -335,6 +335,30 @@
         border-color: #219ebc;
         box-shadow: 0 0 0 3px rgba(142, 202, 230, 0.2);
       }
+
+      .shadcn-input::-webkit-outer-spin-button,
+      .shadcn-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .shadcn-input[type="number"] {
+        -moz-appearance: textfield;
+      }
+
+      .shadcn-input.error {
+        border-color: #ef4444;
+      }
+
+      .shadcn-input.error:focus {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+      }
+
+      .error-message {
+        color: #ef4444;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+      }
     </style>
   </head>
   <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -834,6 +858,63 @@
           }
         });
       }
+
+      // Add this JavaScript before the existing script code
+      function validateNumberInput(input) {
+        // Remove any non-numeric characters except decimal point
+        let value = input.value.replace(/[^\d.]/g, '');
+        
+        // Ensure only one decimal point
+        const decimalCount = (value.match(/\./g) || []).length;
+        if (decimalCount > 1) {
+          value = value.replace(/\.(?=.*\.)/g, '');
+        }
+        
+        // Prevent negative values
+        value = Math.max(0, parseFloat(value) || 0);
+        
+        // Update input value
+        input.value = value;
+        
+        // Add visual feedback
+        const errorMessage = input.parentElement.querySelector('.error-message');
+        if (value < 0) {
+          input.classList.add('error');
+          if (!errorMessage) {
+            const msg = document.createElement('div');
+            msg.className = 'error-message';
+            msg.textContent = 'Please enter a positive number';
+            input.parentElement.appendChild(msg);
+          }
+        } else {
+          input.classList.remove('error');
+          if (errorMessage) {
+            errorMessage.remove();
+          }
+        }
+        
+        return value;
+      }
+
+      // Update the event listeners for numeric inputs
+      document.querySelectorAll('input[type="number"]').forEach((input) => {
+        input.addEventListener("input", function(e) {
+          validateNumberInput(this);
+          debouncedCalculate();
+        });
+        
+        input.addEventListener("change", function(e) {
+          validateNumberInput(this);
+          debouncedCalculate();
+        });
+        
+        // Prevent 'e', '+', '-' characters
+        input.addEventListener("keydown", function(e) {
+          if (['e', 'E', '+', '-'].includes(e.key)) {
+            e.preventDefault();
+          }
+        });
+      });
     </script>
   </body>
 </html>
